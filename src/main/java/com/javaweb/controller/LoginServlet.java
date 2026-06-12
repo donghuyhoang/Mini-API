@@ -20,12 +20,11 @@ public class LoginServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         try {
-             // Đọc body JSON thủ công
+             // Đọc body JSON 
             Map<String, String> credentials = objectMapper.readValue(request.getReader(), Map.class);
             String user = credentials.get("username");
             String pass = credentials.get("password");
 
-            //  Kiểm tra DB bằng PreparedStatement (Tránh SQL Injection - Tư duy competitive/security)
             try (Connection conn = DBConnection.getConnection()) {
                 String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
                 PreparedStatement ps = conn.prepareStatement(sql);
